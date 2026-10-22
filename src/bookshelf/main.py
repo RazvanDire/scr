@@ -1,10 +1,9 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
 from bookshelf.database import init_db
 from bookshelf.routers import books, reviews
+from fastapi import FastAPI
 
 
 @asynccontextmanager

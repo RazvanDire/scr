@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, Query
-
 from bookshelf.database import get_connection
 from bookshelf.models import BookCreate, BookResponse, BookUpdate
+from fastapi import APIRouter, HTTPException, Query
 
 router = APIRouter(prefix="/books", tags=["books"])
 
@@ -17,9 +16,13 @@ def create_book(book: BookCreate) -> BookResponse:
                 (book.title, book.author, book.isbn, book.year),
             )
             conn.commit()
-        except Exception:
-            raise HTTPException(status_code=409, detail="A book with this ISBN already exists")
-        row = conn.execute("SELECT * FROM books WHERE id = ?", (cursor.lastrowid,)).fetchone()
+        except Exception as err:
+            raise HTTPException(
+                status_code=409, detail="A book with this ISBN already exists"
+            ) from err
+        row = conn.execute(
+            "SELECT * FROM books WHERE id = ?", (cursor.lastrowid,)
+        ).fetchone()
         return BookResponse(**dict(row))
 
 
@@ -65,11 +68,12 @@ def update_book(book_id: int, updates: BookUpdate) -> BookResponse:
     }
     if not fields:
         raise HTTPException(status_code=422, detail="No fields provided for update")
-    set_clause = ", ".join(f"{k} = ?" for k in fields)
+    set_clause = ", ".join(f"{field} = ?" for field in fields)
     values = list(fields.values()) + [book_id]
     with get_connection() as conn:
         cursor = conn.execute(
-            f"UPDATE books SET {set_clause} WHERE id = ?", values  # noqa: S608
+            f"UPDATE books SET {set_clause} WHERE id = ?",  # noqa: S608
+            values,
         )
         conn.commit()
         if cursor.rowcount == 0:

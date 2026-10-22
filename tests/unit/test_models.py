@@ -1,7 +1,6 @@
 import pytest
+from bookshelf.models import BookCreate
 from pydantic import ValidationError
-
-from bookshelf.models import BookCreate, ReviewCreate
 
 
 def test_book_create_valid():

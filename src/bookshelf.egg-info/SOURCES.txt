@@ -1,0 +1,12 @@
+pyproject.toml
+src/bookshelf/database.py
+src/bookshelf/main.py
+src/bookshelf/models.py
+src/bookshelf.egg-info/PKG-INFO
+src/bookshelf.egg-info/SOURCES.txt
+src/bookshelf.egg-info/dependency_links.txt
+src/bookshelf.egg-info/requires.txt
+src/bookshelf.egg-info/top_level.txt
+src/bookshelf/routers/__init__.py
+src/bookshelf/routers/books.py
+src/bookshelf/routers/reviews.py

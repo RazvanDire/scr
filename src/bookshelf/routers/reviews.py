@@ -1,9 +1,8 @@
 import sqlite3
 
-from fastapi import APIRouter, HTTPException
-
 from bookshelf.database import get_connection
 from bookshelf.models import ReviewCreate, ReviewResponse
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter(tags=["reviews"])
 
