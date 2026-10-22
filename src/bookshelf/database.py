@@ -13,7 +13,12 @@ def get_connection() -> sqlite3.Connection:
 
 def init_db() -> None:
     with get_connection() as conn:
-        conn.execute("""
+        _create_schema(conn)
+        conn.commit()
+
+
+def _create_schema(conn: sqlite3.Connection) -> None:
+    conn.execute("""
             CREATE TABLE IF NOT EXISTS books (
                 id     INTEGER PRIMARY KEY AUTOINCREMENT,
                 title  TEXT    NOT NULL,
@@ -21,8 +26,8 @@ def init_db() -> None:
                 isbn   TEXT    NOT NULL UNIQUE,
                 year   INTEGER NOT NULL
             )
-        """)
-        conn.execute("""
+    """)
+    conn.execute("""
             CREATE TABLE IF NOT EXISTS reviews (
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
                 book_id  INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
@@ -30,5 +35,4 @@ def init_db() -> None:
                 text     TEXT    NOT NULL,
                 reviewer TEXT    NOT NULL
             )
-        """)
-        conn.commit()
+    """)

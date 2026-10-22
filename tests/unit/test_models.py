@@ -3,7 +3,7 @@ from bookshelf.models import BookCreate
 from pydantic import ValidationError
 
 
-def test_book_create_valid():
+def test_book_create_valid() -> None:
     book = BookCreate(
         title="The Pragmatic Programmer",
         author="David Thomas",
@@ -15,7 +15,7 @@ def test_book_create_valid():
     assert book.year == 1999
 
 
-def test_book_create_strips_isbn_hyphens():
+def test_book_create_strips_isbn_hyphens() -> None:
     book = BookCreate(
         title="Clean Code",
         author="Robert Martin",
@@ -25,7 +25,7 @@ def test_book_create_strips_isbn_hyphens():
     assert book.isbn == "9780132350884"  # hyphens removed by validator
 
 
-def test_book_create_invalid_isbn_raises():
+def test_book_create_invalid_isbn_raises() -> None:
     with pytest.raises(ValidationError) as exc_info:
         BookCreate(title="X", author="Y", isbn="123", year=2020)
     assert "ISBN" in str(exc_info.value)

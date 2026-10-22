@@ -39,6 +39,8 @@ ignore = ["S101"]
 [tool.mypy]
 strict = true
 python_version = "3.11"
+mypy_path = "src"
+explicit_package_bases = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
